@@ -46,6 +46,7 @@ import reactor.core.publisher.Mono;
  * @author Phillip Webb
  * @since 5.2
  */
+@SuppressWarnings("all")
 public abstract class CoroutinesUtils {
 
 	/**
@@ -71,7 +72,7 @@ public abstract class CoroutinesUtils {
 	 */
 	public static Publisher<?> invokeSuspendingFunction(Method method, Object target, Object... args) {
 		KFunction<?> function = Objects.requireNonNull(ReflectJvmMapping.getKotlinFunction(method));
-		if (method.isAccessible() && !KCallablesJvm.isAccessible(function)) {
+		if (!KCallablesJvm.isAccessible(function)) {
 			KCallablesJvm.setAccessible(function, true);
 		}
 		KClassifier classifier = function.getReturnType().getClassifier();
